@@ -2,28 +2,31 @@
 import requests
 import json
 
+class BaiduFanyi:
+    def __init__(self, trans_str):
+        self.trans_str = trans_str
+        self.headers = {"User-Agent":"Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Mobile Safari/537.36"}
+        self.url = 'http://fanyi.baidu.com/basetrans'
+        self.post_data = {"query":self.trans_str,"from":"en","to":"zh",}
 
-headers = {"User-Agent":"Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Mobile Safari/537.36"}
+    def response(self, url, data, headers):
+        page = requests.post(url, data=data, headers=headers)
+        response_json = json.loads(page.content.decode())
 
-post_data = {
-    "query":'page',
-    "from":"en",
-    "to":"zh",
-}
+        return response_json
 
-post_url = "http://fanyi.baidu.com/basetrans"
+    def get_translate(self, dict_ret):
+        ret = dict_ret["dict"]['symbols'][0]['parts']
+        for w in ret:
+            wordmeans = w['part'] + ':'
+            for m in w['means']:
+                wordmeans += m + ','
+            print(wordmeans)
 
-r = requests.post(post_url,data=post_data,headers=headers)
+    def run(self):
+        rj = self.response(self.url, self.post_data, self.headers)
+        self.get_translate(rj)
 
-dict_ret = json.loads(r.content.decode())
-with open('fanyi.txt', 'w', encoding='utf-8') as f:
-    f.write(str(dict_ret))
-ret = dict_ret["dict"]['symbols'][0]['parts']
-print(type(ret))
-for w in ret:
-    wordmeans = w['part'] + ':'
-    for m in w['means']:
-        wordmeans += m + ','
-    print(wordmeans)
-print("result is :",ret)
-
+if __name__ == '__main__':
+    B = BaiduFanyi('mean')
+    B.run()
