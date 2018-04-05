@@ -16,17 +16,28 @@ class BaiduFanyi:
         return response_json
 
     def get_translate(self, dict_ret):
-        ret = dict_ret["dict"]['symbols'][0]['parts']
-        for w in ret:
-            wordmeans = w['part'] + ':'
-            for m in w['means']:
-                wordmeans += m + ','
-            print(wordmeans)
+        if 'keywords' in dict_ret:
+            trans_dst = dict_ret['trans'][0]['dst']
+            print(trans_dst)
+            for kw in dict_ret['keywords']:
+                keyword = kw['word'] + ':'
+                for mean in kw['means']:
+                    keyword += mean + ';'
+                print(keyword)
+
+        else: 
+            ret = dict_ret["dict"]['symbols'][0]['parts']
+            for w in ret:
+                wordmeans = w['part'] + ':'
+                for m in w['means']:
+                    wordmeans += m + ';'
+                print(wordmeans)
 
     def run(self):
         rj = self.response(self.url, self.post_data, self.headers)
         self.get_translate(rj)
 
 if __name__ == '__main__':
-    B = BaiduFanyi('mean')
+    translate_str = 'He must have realized, when he stepped down from the pulpit at Holt Street Church, in 1955, that he had found his calling.'
+    B = BaiduFanyi(translate_str)
     B.run()
