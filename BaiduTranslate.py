@@ -16,8 +16,8 @@ class BaiduFanyi:
         page = requests.post(url, data=data, headers=headers)
         response_json = json.loads(page.content.decode())
 
-        with open('中文.txt', 'w', encoding='utf-8') as f:
-            f.write(str(response_json))
+        #with open('中文.txt', 'w', encoding='utf-8') as f:
+            #f.write(str(response_json))
 
         return response_json
 
