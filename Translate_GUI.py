@@ -2,15 +2,6 @@ from tkinter import *
 from BaiduTranslate import BaiduFanyi
 import time
 
-root = Tk()
-root.geometry('900x550+100+100')
-root.title('专注翻译 为你而生')
-
-lg_from = StringVar()
-lg_to = StringVar()
-lg_from.set('en')
-lg_to.set('zh')
-
 class LanguageFrom:
     
     def zh():
@@ -84,12 +75,6 @@ def add_menu():
     menubar.add_cascade(label='TranslateTo', menu=lgt_menu)
     root['menu'] = menubar
 
-add_menu()
-    
-trans_text = Text(root, width='65', height='12')
-trans_text.insert(1.0, 'input...')
-trans_text.place(x=0, y=0, anchor=NW)
-
 def get_text_trans(event):
     try:
         trans_word = trans_text.get(1.0, END).split('\n')[0]
@@ -103,6 +88,21 @@ def get_text_trans(event):
     except:
         text.delete(1.0, END)
         text.insert(1.0, 'Error!!!')
+
+root = Tk()
+root.geometry('900x550+100+100')
+root.title('专注翻译 为你而生')
+
+lg_from = StringVar()
+lg_to = StringVar()
+lg_from.set('en')
+lg_to.set('zh')
+
+add_menu()
+    
+trans_text = Text(root, width='65', height='12')
+trans_text.insert(1.0, 'input...')
+trans_text.place(x=0, y=0, anchor=NW)
 
 
 img1 = PhotoImage(file='fy.gif')
