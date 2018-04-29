@@ -35,7 +35,7 @@ lgt = LanguageTo
 
 def start_translate(event):
     try:
-        cb = root.clipboard_get()
+        cb = root.clipboard_get().strip()
         print(cb)
         B = BaiduFanyi(cb, lg_from.get(), lg_to.get())
         B.run()
@@ -115,7 +115,7 @@ button_entry.place(x=480, y=0, anchor=NW)
 button = Button(root, text='Translate', width='250', height='169', image=img1)
 button.bind('<Button-1>', start_translate)
 button.place(x=620, y=0, anchor=NW)
-text = Text(root, width=800, height=400)
+text = Text(root, width=125)
 text.place(x=0, y=210, anchor=NW)
 
 
